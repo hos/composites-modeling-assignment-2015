@@ -1,0 +1,3 @@
+[submodule "lazyeqn"]
+	path = lazyeqn
+	url = https://github.com/hos/lazyeqn
