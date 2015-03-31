@@ -67,11 +67,12 @@
 
 \begin{document}
 \maketitle
+\tableofcontents
 
 \section{Estimation of Material Constants (Task 1)}
 
-The following tables give typical mechanical data for T300 carbon-fiber and
-Hexcel 8551-7 epoxy resin.
+\textit{The following tables give typical mechanical data for T300 carbon-fiber and
+Hexcel 8551-7 epoxy resin.}
 
 \begin{table}[H]
   \centering
@@ -80,7 +81,7 @@ Hexcel 8551-7 epoxy resin.
   \begin{tabular}{p{0.7\textwidth}p{0.2\textwidth}}
     \toprule
     Fiber type & T300\\
-    Longitudinal modulus $E_{11}$ (GPa) & 231\\
+    Longitudinal modulus $E_{1}$ (GPa) & 231\\
     Transverse modulus $E_{12}$ (GPa) & 15\\
     Transverse modulus $E_{13}$ (GPa) & 15\\
     In-plane shear modulus $G_{f12}$ (GPa) & 15\\
@@ -111,19 +112,227 @@ Hexcel 8551-7 epoxy resin.
     \bottomrule
   \end{tabular}
   \end{minipage}
+  \caption{Material parameters for the carbon-fibers (left) and epoxy resin
+    matrix (right).}
 \end{table}
 \subsection{Estimation (Part a)}
 
-\textit{Use necessary micro-mechanics formulae to estimate elastic modulus (E11, E22,
-G12), Poisson's ratios (V12 and V21) and failure properties for maximum stresses
-(F11T, F11C, F22T, F22C and F12=F6) assuming the composite is unidirectional
+\textit{Use necessary micro-mechanics formulae to estimate elastic modulus
+  ($E_{1}$, $E_{2}$,
+$G_{12}$), Poisson's ratios ($\nu_{12}$ and $\nu_{21}$) and failure properties for maximum stresses
+($F_{1T}$, $F_{1C}$, $F_{2T}$, $F_{2C}$ and $F_{12}=F_{6}$) assuming the composite is unidirectional
 with \textbf{a fiber volume ratio of 50\%}}
+\subsubsection{Elastic and Shear Moduli}
+%
+$V_f$, the fiber volume fraction  is given to be $0.5$. The longitudinal
+modulus $E_1$ for the \emph{Representative Volume Element} RVE is calculated as
+%
+\begin{equation}
+  E_1 = E_fV_f + E_m (1-V_f)
+\end{equation}
+%
+where $E_f$ and $E_m$ are the longitudinal moduli of the fibers and matrix
+respectively. Using the formula, $E_1$ = \SI{117.54}{GPa}.
+%
+\\The inverse mixture relation is used for the transverse modulus $E_2$
+%
+\begin{equation}
+  \frac{1}{E_2} = \frac{V_f}{E_{2f}} + \frac{V_m}{E_m}
+  \eqor
+  E_2 = \frac{E_{2f} E_m}{V_mE_{2f}+V_fE_m}
+\end{equation}
+%
+where $E_{2f}$ is the transverse modulus of the fibers, and $V_m$ is the folume
+fraction of the matrix. Using the formula, $E_2$ = \SI{6.415}{GPa}.
+\\Similarly, the shear modulus is calculated as
+%
+\begin{equation}
+  \frac{1}{G_{12}} = \frac{V_f}{G_{f12}} + \frac{V_m}{G_m}
+  \eqor
+  G_{12} = \frac{G_{f12} G_m}{V_mG_{f12}+V_fG_m}
+\end{equation}
+%
+where $G_{f12}$ and $G_m$ are the shear moduli of the fibers and the matrix
+respectively. Using the formula, $G_{12}$ = \SI{2.691}{GPa}.
+%
+\subsubsection{Hopkins-Chamis Model}
+%
+The Hopkins-Chamis model can be used to make a better estimate of $E_2$ and
+$G_{12}$. It goes for $E_2$
+%
+\begin{equation}
+  E_{2} = E_m\sbr{\sbr{1-\sqrt{V_f}}+\frac{\sqrt{V_f}}{1-\sqrt{V_f}\sbr{1-\frac{E_m}{E_{f2}}}}}
+\end{equation}
+%
+yielding $E_2$ = \SI{7.141}{GPa}. Similarly $G_{12}$ = \SI{3.315}{GPa}.
+%
+These values will be used for all calculations.
+%
+%
+\subsubsection{Poisson's Ratios}
+%
+Major and minor Poisson's ratios will be calculated following the same
+principle, using direct and inverse mixture relations
+%
+\begin{gather}
+  \nu_{12} = \nu_{f12} V_f + \nu_m V_m\\
+  \frac{1}{\nu_{21}} = \frac{V_f}{\nu_{f21}} + \frac{V_m}{\nu_m}
+  \eqor
+  \nu_{21} = \frac{\nu_{f21} \nu_m}{V_m\nu_{f21}+V_f\nu_m}
+\end{gather}
+%
+where $\nu_{12}$, $\nu_{21}$ and $\nu_m$ are the major and minor Poisson's
+ratios and the Poisson ratio of the matrix respectively. Using the formulas,
+$\nu_{12}$ = 0.290, $\nu_{21}$ = 0.262.
+%
+\subsubsection{Maximum Stresses}
+\textbf{The failure stress at longitudinal tension} is calculated using the direct relation
+%
+\begin{equation}
+  F_{1t} = \sigma_f V_f  + \sigma_m^{*} (1-V_f)
+\end{equation}
+where $\sigma_f$ is the longitudinal tensile strength of the
+fibers and $\sigma_m^{*}$ is matrix stress at failure. The last one is
+calculated as
+\begin{equation}
+  \sigma_m^{*} \approx \sigma_f \frac{E_m}{E_f}
+\end{equation}
+Using the formulas, $\sigma_m^{*}$ = \SI{44.156}{MPa} $F_{1t}$ = \SI{1272.1}{MPa}.
+%
+\\\textbf{The failure stress at transverse tension} is calculated as
+%
+\begin{equation}
+  F_{2t} = E_{2} \veps_{2t\textsf{ult}}
+\end{equation}
+%
+where $\veps_{2t\textsf{ult}}$ is the ultimate transverse strain at tension
+%
+\begin{equation}
+  \veps_{2t\textsf{ult}} = \frac{\veps_{m\textsf{ult}}}{F}
+\end{equation}
+%
+where $F$ is the \emph{stress concentration factor}
+%
+\begin{equation}
+  F = \frac{\veps_m}{\veps_c} = \frac{1}{\frac{d}{s}\sbr{\frac{E_m}{E_f}-1}+1}
+\end{equation}
+%
+Here $\frac{d}{s}$ is related to spatial configuration, and is equal to
+$\sqrt{\frac{2}{\pi}}$. From this $F$ = 2.386.
+$\veps_{m\textsf{ult}}$ is derived from the simple
+relation
+%
+\begin{equation}
+  Y_{mT} = E_m \veps_{m\textsf{ult}}
+\end{equation}
+and leads to $\veps_{m\textsf{ult}}$ = \num{24.265e-3} therefore $\veps_{2t\textsf{ult}}=$
+\num{10.17e-3}. $F_{2t}$ is finally found out to be \SI{72.624}{MPa} using the
+moduli obtained from Hopkins-Chamis model.
+%
+\\\textbf{The failure stress at longitudinal compression} is calculated for 3
+different failure cases
+\begin{enumerate}
+\item For fiber micro-buckling,
+  \begin{equation}
+    F_{1c} = \frac{G_m}{1-V_f}
+  \end{equation}
+  and equals \SI{2956}{MPa}.
+
+\item Transverse tensile rupture due to Poisson's effect
+%
+  \begin{equation}
+    F_{1c} = \frac{E_{1}\veps_{2t\textsf{ult}}}{\nu_{12}}
+  \end{equation}
+  Using previously calculated values, \SI{4122}{MPa}.
+
+\item Shear failure without buckling
+%
+  \begin{equation}
+    F_{1c} =  2\rbr{\tau_{f\textsf{ult}}V_f + \tau_{m\textsf{ult}}V_m}
+  \end{equation}
+  where
+    $\tau_{f\textsf{ult}} = \frac{\sigma_{\textsf{ult}}}{2}$ = \SI{1000}{MPa}
+    and $\tau_{m\textsf{ult}}$ = \SI{57}{MPa} from given values. This yields
+    \SI{1057}{MPa} for this case.
+\end{enumerate}
+%
+%
+\textbf{The failure stress at transverse compression} is calculated in the same
+manner as transverse tension
+%
+\begin{equation}
+  F_{2c} = E_{2} \veps_{2c\textsf{ult}}
+\end{equation}
+%
+where $\veps_{2c\textsf{ult}}$ is the
+%
+\begin{equation}
+  \veps_{2c\textsf{ult}} = \frac{\veps_{mc\textsf{ult}}}{F}
+\end{equation}
+%
+where $F$ is the same stress concentration factor defined before and again
+equals 2.386.
+$\veps_{mc\textsf{ult}}$ is calculated similarly
+%
+\begin{equation}
+  Y_{mC} = E_m \veps_{mc\textsf{ult}}
+\end{equation}
+and leads to $\veps_{mc\textsf{ult}}$ = \num{31.863e-3} therefore $\veps_{2c\textsf{ult}}=$
+\num{13.354e-3}. $F_{2c}$ is finally found out to be \SI{95.361}{MPa}.
+%
+\\\textbf{The in-plane shear strength} is calculated as
+%
+\begin{equation}
+  F_6 = F_{12} = G_{12}\gamma_{12}
+\end{equation}
+%
+where
+%
+\begin{equation}
+  \gamma_{12} = \frac{\gamma_{m\textsf{ult}12}}{F_s}
+\end{equation}
+%
+where $\gamma_{m\textsf{ult}12}$ can be found from the relation
+%
+\begin{equation}
+  S_m = G_m \gamma_{m\textsf{ult}12}
+\end{equation}
+%
+and $F_s$ is the shear stress concentration factor defined as
+%
+\begin{equation}
+  F_s = \frac{\gamma_{m12}}{\gamma_{c12}} = \frac{1}{\frac{d}{s}\sbr{\frac{E_{m12}}{E_{f12}}-1}+1}
+\end{equation}
+%
+again, $\frac{d}{s}=\sqrt{\frac{2}{\pi}}$ and $F_s$ = \num{3.56}.
+$\gamma_{m\textsf{ult}12}$ = \num{38.566e-3} and $\gamma_{12}$ =
+\num{10.833e-3}. Hence $F_6$ = \SI{33.916}{MPa}.
+
+\begin{table}[htbp]
+  \centering
+  \begin{tabular}{lll}
+    \toprule
+    Composite longitudinal modulus & $E_1$ & \SI{117.54}{GPa}\\
+    Composite transverse modulus & $E_2$ & \SI{7.141}{GPa}\\
+    Composite shear modulus & $G_{12}$ & \SI{3.315}{GPa}\\
+    Composite major Poisson's ratio &$\nu_{12}$ & \num{0.290}\\
+    Composite minor Poisson's ratio &$\nu_{21}$ & \num{0.262}\\
+    Composite longitudinal tension strength & $F_{1t}$ & \SI{1272.1}{MPa}\\
+    Composite transverse tension strength & $F_{2t}$ & \SI{72.624}{MPa}\\
+    Composite longitudinal compression strength, buckling & $F_{1c}$ & \SI{2956}{MPa}\\
+    Composite longitudinal compression strength, rupture  & $F_{1c}$ & \SI{4122}{MPa}\\
+    Composite longitudinal compression strength, shear failure & $F_{1c}$ & \SI{1057}{MPa}\\
+    Composite transverse compression strength & $F_{2c}$ & \SI{95.361}{MPa}\\
+    Composite in-plane shear strength & $F_{12}$ & \SI{33.916}{MPa}\\
+    \bottomrule
+  \end{tabular}
+  \caption{Results of micromechanics calculations}
+\end{table}
 
 \subsection{Discussion (Part b)}
 
 \textit{Briefly discuss the limitations of micro-mechanics to predict mechanical
 properties, especially failure properties.}
-
 
 \section{}
 \textit{This uni-directional composite is used for a simple square flat plate as shown
@@ -153,7 +362,7 @@ first and last ply failure loads.}
 \textit{Create a Finite Element model of the above problem having identical
 boundary conditions, loadings and material properties.
 \\Perform an implicit Finite Element analysis and compute the central
-deflection. Copmare results with the previous classical solution using laminate
+deflection. Compare results with the previous classical solution using laminate
 analysis.}
 
 \section{}
@@ -200,10 +409,12 @@ temperature and the fabric has isotropic permeability throughout.}
 \begin{table}[H]
   \centering
   \begin{tabular}{ll}
+    \toprule
     Thickness of composite & 2 mm\\
     Resin viscosity at 23\degree C & 0.3 Pa sec \\
     Assume PAM-RTM standard fabric with porosity & 0.5 \\
-    Fabric permeability & 1E-10 m\textsuperscript{2}\\
+    Fabric permeability & \num{1e-10} m\textsuperscript{2}\\
+    \bottomrule
   \end{tabular}
   \caption{Infusion and other data}
 \end{table}
