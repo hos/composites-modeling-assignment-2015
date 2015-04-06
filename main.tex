@@ -1,4 +1,4 @@
-\documentclass[a4paper,twosided,12pt,DIV12]{scrartcl}
+\documentclass[a4paper,twosided,11pt,DIV14]{scrartcl}
 %
 % all the local settings defined in /localsettings.sty
 \usepackage{localsettings}
@@ -58,8 +58,8 @@
 \frenchspacing
 %
 % \title{Array Calculus}
-\title{Composites Modeling WS2014--2015 Assignment}
-\author{Huseyin Onur Solmaz -- Matr.2868402}
+\title{Composites Modeling WS2014--2015\\Assignment}
+\author{Hüseyin Onur Solmaz -- Matr.2868402}
 \date{}
 %
 
@@ -68,6 +68,25 @@
 \begin{document}
 \maketitle
 \tableofcontents
+
+\section{Introduction}
+
+Composite materials used in the industry exhibit mechanical behavior that is
+more complex than the ideal homogeneous materials we are familiar with from
+elementary \emph{strength of materials} teachings. As a student of
+Computational Mechanics of Materials and Structures, I felt compelled to take
+this course, \emph{Composites Modeling}, which provided me insight on lots of
+industrial areas of application.
+
+In order to test our knowledge, this course required for us to finish a final
+assignment, this one, which is supposed to allow us to demonstrate our
+capabilities. The assignment consists of 5 tasks, which in order want us to
+model a carbon-fiber and an epoxy-resin composite using micromechanics, laminate
+analysis and FEM simulation. The results were compared for these different
+approaches, using a common geometry and loading. After this, beads were added to
+the geometry of the FEM simulation, and the strengthening effect was observed.
+Finally, we were asked to model the RTM infusion process for the same given
+geometry.
 
 \section{Estimation of Material Constants (Task 1)}
 
@@ -334,7 +353,24 @@ $\gamma_{m\textsf{ult}12}$ = \num{38.566e-3} and $\gamma_{12}$ =
 \textit{Briefly discuss the limitations of micro-mechanics to predict mechanical
 properties, especially failure properties.}
 
-\section{}
+Like any idealized model, micro-mechanics only provides one that may not be able to reflect
+the complexity of the real-life situation.
+
+For moduli other than longitudinal, the anisotropy of the carbon fiber leads to
+unexpected results that differ from the ones obtained by mixture laws. These are
+the transverse and shear moduli, and have respective \emph{empirical} formulas for more
+accurate calculations. Additionally, Poisson's ratios yield results that are
+on the safe side and sufficient for design purposes.
+
+Other than anisotropic considerations, statistical inhomogeneities can also lead
+to unexpected results in fringe cases. The method and conditions of applying the
+resin greatly influence the properties of the composite derived from the resin.
+With a material as delicate as this, one can have different results
+despite the correct execution
+of all procedures, such as infusion and curing. The aim of the development of
+related theories utilized in this assignment is to minimize this effect.
+
+\section{Laminate Analysis (Task 2)}
 \textit{This uni-directional composite is used for a simple square flat plate as shown
 below having a length of 400mm and with 300mm. Eight plies having a symmetric
 lay-up [0/90/+45/-45]s are used. Assume the ply thickness is 0.25mm and the
@@ -346,18 +382,74 @@ ends in the width direction.}
   \includegraphics[width=0.7\textwidth]{fig1.png}
 \end{center}
 
-\subsection{}
+\subsection{Laminate Stiffness and Maximum Deflection (Part a)}
 
 \textit{Use laminate analysis to compute the relevant laminate stiffnesses and classical
 beam bending formulae to estimate maximum deflection at the center of the
 plate.}
+%
+\\The input for the \emph{Laminate Analysis Program} are the values obtained in
+the first part, and entered to the program as given below.
+%
+\begin{center}
+  \includegraphics[width=\textwidth]{laminate2.png}
+\end{center}
+%
+For the given input, the program yields the following laminate stiffnesses.
+%
+\begin{center}
+  \includegraphics{laminate1.png}
+\end{center}
+%
+As for the classical beam bending solution,
 
-\subsection{}
+\begin{equation}
+  \delta_{\max} = \delta_B + \delta_S = \frac{1}{48}\frac{PL^3}{EI} + \frac{1}{4} \frac{PL}{GA}
+\end{equation}
+%
+where $P=\SI{0.1}{kN}$, $E = \SI{73.4195}{GPa}$, $G=\SI{6.46218}{GPa}$,
+$I = \frac{1}{12} b h^3 = \SI{200}{mm^4}$, $A=\SI{600}{mm^2}$ with $b =
+\SI{300}{mm}$, $h = 8 \times 0.25 = \SI{2}{mm}$ and $L=\SI{400}{mm}$.
+%
+\\Substituting the values, one obtains
+%
+\begin{equation}
+  \delta_{\max} = \num{9.08024e-3} + \num{25.7911e-6} = \SI{9.10603e-3}{mm}
+\end{equation}
+%
+For the maximum deflection at the center of the plate.
+
+\subsection{First and Last Ply Failure Loads (Part b)}
 
 \textit{Use laminate analysis and the failure data from question 1, to estimate the
 first and last ply failure loads.}
 
-\section{}
+The method that was used to determine the failure procedure is this: The indices
+were observed at each step of the failure. Since the ply with the highest
+index is the most critical one, that one was removed from the model, making it
+ready for the next step. This was done until only one ply is standing,
+effectively yielding the order of failure and the loads of failure for each
+ply.
+
+This can be observed in Figure~\ref{fig:indices1}. According to the figure, the
+order of failure is 8 > 6 > 5 > 4 > 7 > 3 > 2 > 1. From the figure, the failing
+indices for the first and last plies are respectively 0.075 and 3.0.
+
+Therefore, the first ply failure load (for ply 8) is $0.1/0.075 \approx
+\SI{1.333}{kN}$
+and last ply failure load (for ply 1) is $0.1/3 = \SI{0.0333}{kN}$
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\textwidth]{indices.png}
+\end{center}
+\caption{The indices for each step of the failure, consecutively from left to
+  right, continuing the same way from the second row. Numbers show the remaining
+  plies. Numbering denotes the topmost ply as 1 and bottom-most ply as 8}
+\label{fig:indices1}
+\end{figure}
+
+\section{FEM Model (Task 3)}
 
 \textit{Create a Finite Element model of the above problem having identical
 boundary conditions, loadings and material properties.
@@ -365,7 +457,7 @@ boundary conditions, loadings and material properties.
 deflection. Compare results with the previous classical solution using laminate
 analysis.}
 
-\section{}
+\section{FEM Model with Beads (Task 4)}
 
 \textit{Modify the above finite element model to include two geometric stiffeners (so
 called Beads or Sikkens). Choose a suitable spacing for the sickens with each
@@ -394,7 +486,7 @@ output set ERFKEY=3 in the OCTRL control card).}
   necessary applied load to just cause first ply failure of the structure.
 \end{enumerate}}
 
-\section{}
+\section{Resin Infusion (Task 5)}
 %
 \textit{Perform a PAM-RTM infusion simulation of the Plate with Sikkens.
 \\Beware that PAM-RTM uses only triangular shell elements and the units should
@@ -434,6 +526,59 @@ temperature and the fabric has isotropic permeability throughout.}
   be placed for your chosen setup?
 \end{enumerate}}
 
+As can be seen from Figure~\ref{fig:resin1}, numerous simulations have been done
+with PAM--RTM using different resin inlets.
+
+For the proposed setting in the first part, the inlets and outlets have been
+placed as shown under the upper-left plot in Figure~\ref{fig:resin1}, i.e.
+outlets in the middle and corners opposite to the inlet.
+This has been done to ensure a pressure gradient suitable for the infusion to
+complete. The result of the proposed setting can be observed in the same figure.
+
+The time of the infusion for the
+proposed setting is equal to \SI{3220}{s} $\approx$ \SI{54}{min}.
+This result is well over the \SI{30}{min} limit given in the second part. Hence
+the resin would solidify before the process is complete and the infusion would
+be unsuccessful.
+
+For the third part, a number of different configurations have been tried. The
+most successful one is the one seen in the lower-right of
+Figure~\ref{fig:resin1}, which had a duration of \SI{650}{s} $\approx$
+\SI{11}{min}. This configuration, in which the \emph{four inlets are located on the centers
+of both opposing edges with an outlet in the middle}, has proven to be the most
+effective among all viable configurations which has a realistic amount of
+inlets. Of course, one can imagine a system with inlets more than four, or the
+whole boundary is an inlet; but I presumed it would be logical
+to remain in realistic ranges, which in this case is four inlets maximum.
+
+Another issue to address is the unreliability of the suggested software. The
+question has stated that 3--4 nodes be used for the pipe inlet, however these
+facts exist for the case: A minimum number of 2 nodes can be selected for a
+pipe inlet, which leads me to believe the program uses a naive algorithm that
+takes line elements as input. After 2 nodes, the infusion duration decreases by
+\%20 with every extra node added to the inlet. This means that the results
+should have an error margin of at least \%20. Additionally, adding outlets to
+the case had no effect on the simulation, and the resin continued to flow the
+same way without them. This has led me to believe it is not the pressure
+gradient that sets the resin into motion, but some other criterion inside the
+program.
+Nevertheless, it is not my duty
+to question the internal mechanism of the program and I shall finish this
+paragraph knowing that I have stated my concerns.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=16cm]{q5.png}
+\end{center}
+\caption{The color plots show the progression of the resin over time, with blue
+  showing the starting region, hence the inlets, and red showing the last region
+  to be infused. Under every plot is a diagram showing the locations of the
+  inlets, outlets and the duration of the infusion. The symbols have been
+  explained at the bottom of the figure.}
+\label{fig:resin1}
+\end{figure}
+
+\section{Discussion and Conclusion}
 
 \end{document}
 %
