@@ -401,7 +401,8 @@ For the given input, the program yields the following laminate stiffnesses.
   \includegraphics{laminate1.png}
 \end{center}
 %
-As for the classical beam bending solution,
+As for the classical beam bending solution, the maximum deflection for the given
+loading is given as
 
 \begin{equation}
   \delta_{\max} = \delta_B + \delta_S = \frac{1}{48}\frac{PL^3}{EI} + \frac{1}{4} \frac{PL}{GA}
@@ -414,7 +415,7 @@ $I = \frac{1}{12} b h^3 = \SI{200}{mm^4}$, $A=\SI{600}{mm^2}$ with $b =
 \\Substituting the values, one obtains
 %
 \begin{equation}
-  \delta_{\max} = \num{9.08024e-3} + \num{25.7911e-6} = \SI{9.10603e-3}{mm}
+  \delta_{\max} = \num{9.08024e-0} + \num{25.7911e-3} = \SI{9.10603}{mm}
 \end{equation}
 %
 For the maximum deflection at the center of the plate.
@@ -457,6 +458,33 @@ boundary conditions, loadings and material properties.
 deflection. Compare results with the previous classical solution using laminate
 analysis.}
 
+For the modeling of the material, geometry and loading presented in the
+previous section, an implicit solving scheme was utilized using PAM--Crash.
+
+On Figure~\ref{fig:31}, you can see the mesh and boundary conditions used.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\textwidth]{3_1.png}
+\end{center}
+\caption{The meshed geometry (left), and the boundary conditions (right)}
+\label{fig:31}
+\end{figure}
+
+It can be seen from Figure~\ref{fig:32} that the maximum vertical displacement
+at the center of the edges of the plate is equal to \fbox{\SI{9.447}{mm}}. To compare
+with the previous solution which used Euler-Bernoulli beam theory, there is a
+$\frac{9.447-9.106}{9.447} = 3.1\%$ difference in between.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=14cm]{3disp.png}
+\end{center}
+\caption{The vertical displacements for Task 3}
+\label{fig:32}
+\end{figure}
+
+
 \section{FEM Model with Beads (Task 4)}
 
 \textit{Modify the above finite element model to include two geometric stiffeners (so
@@ -485,6 +513,88 @@ output set ERFKEY=3 in the OCTRL control card).}
 \item From the contour results for ``Ply Failure Criteria'' estimate the
   necessary applied load to just cause first ply failure of the structure.
 \end{enumerate}}
+
+\subsection{Maximum Deflection}
+
+Beads were added to the geometry as specified in the question. It can be seen in
+Figure~\ref{fig:41} that the distance between the beads is \SI{177}{mm}. In the
+same figure, the result of the simulation can be observed, where the maximum
+vertical displacement is equal to \fbox{\SI{1.229}{mm}}. This means that the beads
+helped decrease the deformation up to $\frac{9.447-1.229}{9.447}=87\%$.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\textwidth]{part4_3.png}
+\end{center}
+\caption{Geometry of the problem solved in Task 4 (left), and the vertical
+  displacements (right). The distance between the
+  beads is \SI{177}{mm}. Maximum vertical displacement is \SI{1.229}{mm}}
+\label{fig:41}
+\end{figure}
+
+\subsection{Failure Load Using Maximum Stress Criterion}
+
+In Figure~\ref{fig:43}, the distribution of ply failure criterion can be
+observed for \emph{the overall laminate} and the \emph{ply corresponding to overall
+maximum index}. The rest of the contour plots have been omitted for brevity, but
+the maximum values coming from each ply can bee seen in Table~\ref{tab:indices1}.
+\fbox{\parbox{\textwidth}{%
+By definition, \textbf{failure load} is equal to the load necessary to cause the
+first ply failure. That is, a structural element made of such a composite is
+rendered dysfunctional immediately after the failure of any constituent layer.
+Therefore the answer for this and next parts should be the same.}}
+This equals to a failure load of $\frac{0.1}{0.111325} = \fbox{\SI{0.8983}{kN}}$.
+
+% the composite failure occurs for the highest absolute index 0.0687479 for ply
+% 8. This equals a failure load of $\frac{0.1}{0.0687479} = \SI{1.455}{kN}$.
+
+% \begin{figure}[H]
+% \begin{center}
+%   \includegraphics[width=\textwidth]{4stress.png}
+% \end{center}
+% \caption{For Task 4 Part b, critical stress distribution (left), and the stress
+%   distribution of the ply corresponding to maximum stress, i.e. ply 8, with the index
+%   -0.0687479}
+% \label{fig:42}
+% \end{figure}
+
+
+\begin{table}[H]
+  \centering
+  \begin{tabular}{ll}
+    \toprule
+    Ply Number & Failure Index \\
+    \midrule
+    1 & 0.0552966 \\
+    2 & 0.0558294 \\
+    3 & 0.111325 \\
+    4 & 0.106576 \\
+    5 & 0.0997414 \\
+    6 & 0.0555746 \\
+    7 & 0.0543831 \\
+    8 & 0.0650406 \\
+    \bottomrule
+  \end{tabular}
+  \caption{The maximum failure index for each ply. It can be seen that the first
+    ply failure corresponds to the maximum index value of ply 3.}
+  \label{tab:indices1}
+\end{table}
+\subsection{Load Necessary to Cause the First Ply Failure}
+
+Observing the results of the simulation from Figure~\ref{fig:43}, one sees that
+the first failure is reached for ply 3 with an index of 0.111325.
+This equals to a failure load of $\frac{0.1}{0.111325} = \fbox{\SI{0.8983}{kN}}$.
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\textwidth]{4failure.png}
+\end{center}
+\caption{For Task 4 Part c, Ply Failure Criteria distribution (left), and the
+  distribution of the ply corresponding to maximum value, i.e. ply 3, with the index
+  0.111325}
+\label{fig:43}
+\end{figure}
+
 
 \section{Resin Infusion (Task 5)}
 %
@@ -579,6 +689,56 @@ paragraph knowing that I have stated my concerns.
 \end{figure}
 
 \section{Discussion and Conclusion}
+
+Through Tasks 1 to 5, analysis of the mechanical properties of a simple geometry
+of a composite material, namely carbon-fiber epoxy-resin composite, was
+done using different theories.
+
+In Task 1, micromechanics formulas derived from an idealized model were used to
+predict the mechanical properties of the composite material. Where the physical
+formulas failed to reflect reality, empirical models were used to compensate,
+such as in the case of transverse and shear moduli. The effectiveness of
+micromechanics in estimating the mechanical properties of said material was
+discussed.
+
+In Task 2, the results of Task 1 were used to obtain the mechanical
+properties of an 8-layered laminate, with the help of laminate analysis
+software. Then, these properties were used in conjunction with Euler-Bernoulli
+beam theory to create a test case: simple rectangular domain with a distributed
+load on the center line, constrained at the edges. The maximum deflection was
+obtained for this simple case to compare with following more complex analyses.
+For the second part, first and last ply failure loads were estimated with the
+help of the software, where failing plies were removed from the model
+successively to obtain the indices for each ply.
+
+In Task 3, the test case specified in the previous task was implemented using an
+implicit Finite Element Analysis. From the displacement results, it was seen
+that the results matched very closely with the solution found from beam theory.
+
+In Task 4, the same geometry was reinforced using beads, which led to drastic
+reductions---up to 90\%---in the deformability of the composite material for the given
+load configuration. Using the results of the same simulation, the failure load
+was determined using the maximum stress criterion, and the load necessary to
+cause the first ply failure was determined.
+
+In Task 5, Resin Transfer Molding infusion of the carbon fibers were simulated
+for the given geometry using the provided software. First, the duration for the
+given inlet configuration was determined; then five other possible
+configurations were tried to determine the most optimal. As a result, it has
+been seen that although the initial configuration with a single inlet is not
+sufficient for successful infusion, one can use four inlets located on the
+centers of opposite edges to effectively reduce infusion duration by 80\% which
+is below the acceptable limit. For each case, an outlet configuration was
+proposed which would provide the pressure gradient necessary for successful
+infusion.
+
+This assignment was beneficial in solidifying the concepts and theories
+taught in class, in the sense that it built up step-by-step
+elementary to final procedures for designing a structural member built out of a
+material as complex as carbon-fiber and epoxy-resin composite.
+The course itself was successful in covering the wide-range of topics an
+engineer needs to be educated in before entering the industry.
+
 
 \end{document}
 %
