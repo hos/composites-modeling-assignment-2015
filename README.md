@@ -1,0 +1,1 @@
+[![PDF Status](https://www.sharelatex.com/github/repos/hos/composites-modeling-assignment-2015/builds/latest/badge.svg)](https://www.sharelatex.com/github/repos/hos/composites-modeling-assignment-2015/builds/latest/output.pdf)
